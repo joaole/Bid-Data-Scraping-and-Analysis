@@ -33,23 +33,17 @@ if response.status_code == 200:
         # Definir nomes das colunas com base no número de colunas presentes
         columns = ['Data da Publicação', 'Título', 'Nº da licitação', 'Modalidade', 'DataAbertura', 'Objetivo', 'Situação', 'Empresa', 'Data'][:num_columns]
 
-        # Criar DataFrame
+        # Criar DataFrame completo
         try:
-            data_completa = pd.DataFrame(data_bruta, columns=columns)
-            
-            # Salvar os dados brutos
-            save_to_excel(data_completa, 'Licitações_infrasa_completa.xlsx')
+            df_completa = pd.DataFrame(data_bruta, columns=columns)
+        
+            save_to_excel(df_completa, 'Licitações_infrasa_completa.xlsx')
             print("Dados completos salvos e formatados em Licitações_infrasa_completa.xlsx")
-
-            # Processar e filtrar os dados
-            #filtered_data = process_data('Licitações_infrasa_completa.xlsx')
-
-            # Salvar os dados filtrados
-            #save_to_excel(filtered_data, 'Licitações_infrasa_tratada.xlsx')
-            print("Dados tratados e formatados salvos em Licitações_infrasa_tradada.xlsx")
 
         except ValueError as e:
             print(f"Erro ao criar DataFrame: {e}")
+
+        df_tratada = df_completa.drop(['Data da Publicação', 'Título', 'Nº da licitação', 'Modalidade', ])
     else:
         print("Tabela não encontrada na página.")
 else:
